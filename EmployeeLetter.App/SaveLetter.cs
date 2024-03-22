@@ -1,4 +1,5 @@
-﻿using EmployeeLetter.App.Models;
+﻿using EmployeeLetter.App.Helpers;
+using EmployeeLetter.App.Models;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace EmployeeLetter.App
         {
             if (ValidateFields())
             {
-                MessageBox.Show(isNullOrEmpty);
+                MessageBox.Show(Constants.isNullOrEmpty);
                 return;
             }
             using (var client = new HttpClient())
@@ -35,25 +36,25 @@ namespace EmployeeLetter.App
                     var json = JsonConvert.SerializeObject(letterData);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    var response = client.PostAsync(apiUrl, content).Result;
+                    var response = client.PostAsync(Constants.apiUrl, content).Result;
 
                     if (response.IsSuccessStatusCode)
                     {
-                        MessageBox.Show(letterSuccess);
+                        MessageBox.Show(Constants.letterSuccess);
                         ClearFields();
                     }
                     else
                     {
-                        MessageBox.Show($"{letterError}: {response.StatusCode}");
+                        MessageBox.Show($"{Constants.letterError}: {response.StatusCode}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"{letterError} {ex.Message}");
+                    Console.WriteLine($"{Constants.letterError} {ex.Message}");
                 }
             }
         }
-        #region Helpers
+        #region FieldManager
 
         bool ValidateFields()
         {
@@ -73,10 +74,7 @@ namespace EmployeeLetter.App
             Recipient.Text = null;
         }
 
-        const string isNullOrEmpty = "Все поля должны быть заполненный";
-        const string apiUrl = "https://localhost:7238/Letter/AddLetter";
-        const string letterSuccess = "Письмо успешно отправлено";
-        const string letterError = "Ошибка";
+        
         #endregion
     }
 }

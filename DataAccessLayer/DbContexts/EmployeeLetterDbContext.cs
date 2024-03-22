@@ -12,8 +12,6 @@ namespace DataAccessLayer.DbContexts
         }
        
         public DbSet<EmployeeLetter> EmployeeLetters { get; set; }
-       
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-               => optionsBuilder.UseSqlServer("Server=LAPTOP-HSSTA1HS;Database=TestDB;Trusted_Connection=true;");
+              
     }
 }
